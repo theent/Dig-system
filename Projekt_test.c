@@ -1,6 +1,10 @@
+
+#define F_CPU 8000000UL
+
+#include <avr/io.h>
 #include <time.h>
 #include <stdlib.h>
-
+#include <util/delay.h>
 
 
 main() 
@@ -18,6 +22,11 @@ int spelplan[4][4];
 bool spelplan2[4][4];
 
 int x,y = 0;
+
+
+
+
+
 
 int i, j, s, r;
 int slump1, slump2;
@@ -59,6 +68,28 @@ for(s = 0; s<8; s++) {
 
 
 }
+
+
+for(i = 0; i<4; i++) {
+
+
+    for(j = 0; j<4; j++) {
+       spelplan2[i][j] = true;
+
+}
+
+_delay_ms(3000);
+
+
+for(i = 0; i<4; i++) {
+
+
+    for(j = 0; j<4; j++) {
+       spelplan2[i][j] = false;
+
+}
+
+
 
 
 
