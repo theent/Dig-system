@@ -6,6 +6,80 @@
 #include <stdlib.h>
 #include <util/delay.h>
 
+#define JOYSTICK_NEUTRAL_HORIZONTAL 420
+#define JOYSTICK_NEUTRAL_VERTICAL 500
+#define JOYSTICK_THRESHOLD 150
+
+
+
+typedef enum Direction
+{
+  None,
+  Left,
+  Right,
+  Up,
+  Down
+} Direction;
+
+
+
+
+
+// Get result from ADC
+uint16_t adcRead(uint8_t ch)
+{
+  // Make sure input is 0-7
+  ch &= 0b00000111;
+  // Set MUX-channel
+  ADMUX = (ADMUX & 0xF8) | ch;
+  // Start ADC
+  ADCSRA |= (1 << ADSC);
+  // Wait for ADC to complete
+  while (ADCSRA & (1 << ADSC))
+    ;
+  return (ADC);
+}
+
+
+
+
+
+
+
+// Return the direction created by the given joystick
+Direction getDirectionForJoystick(int horizontalPotensometer, int verticalPotensometer)
+{
+  int horizontalMove = adcRead(horizontalPotensometer);
+  int verticalMove = adcRead(verticalPotensometer);
+
+  if (horizontalMove < JOYSTICK_NEUTRAL_HORIZONTAL - JOYSTICK_THRESHOLD)
+  {
+    return Left;
+  }
+
+  if (horizontalMove > JOYSTICK_NEUTRAL_HORIZONTAL + JOYSTICK_THRESHOLD)
+  {
+    return Right;
+  }
+
+  if (verticalMove < JOYSTICK_NEUTRAL_VERTICAL - JOYSTICK_THRESHOLD)
+  {
+    return Up;
+  }
+
+  if (verticalMove > JOYSTICK_NEUTRAL_VERTICAL + JOYSTICK_THRESHOLD)
+  {
+    return Down;
+  }
+
+  return None;
+};
+
+
+
+
+
+
 
 main() 
 {
