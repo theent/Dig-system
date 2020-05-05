@@ -12,14 +12,7 @@
 
 
 
-typedef enum Direction
-{
-  None,
-  Left,
-  Right,
-  Up,
-  Down
-} Direction;
+
 
 
 
@@ -44,36 +37,6 @@ uint16_t adcRead(uint8_t ch)
 
 
 
-
-
-// Return the direction created by the given joystick
-Direction getDirectionForJoystick(int horizontalPotensometer, int verticalPotensometer)
-{
-  int horizontalMove = adcRead(horizontalPotensometer);
-  int verticalMove = adcRead(verticalPotensometer);
-
-  if (horizontalMove < JOYSTICK_NEUTRAL_HORIZONTAL - JOYSTICK_THRESHOLD)
-  {
-    return Left;
-  }
-
-  if (horizontalMove > JOYSTICK_NEUTRAL_HORIZONTAL + JOYSTICK_THRESHOLD)
-  {
-    return Right;
-  }
-
-  if (verticalMove < JOYSTICK_NEUTRAL_VERTICAL - JOYSTICK_THRESHOLD)
-  {
-    return Up;
-  }
-
-  if (verticalMove > JOYSTICK_NEUTRAL_VERTICAL + JOYSTICK_THRESHOLD)
-  {
-    return Down;
-  }
-
-  return None;
-};
 
 
 
@@ -174,6 +137,35 @@ int cho1, cho2;
 int x1, y1;
 
 while(kartkvar(spelplan2)) {
+
+    int horizontalMove = adcRead(horizontalPotensometer);
+    int verticalMove = adcRead(verticalPotensometer);
+
+    if (horizontalMove < JOYSTICK_NEUTRAL_HORIZONTAL - JOYSTICK_THRESHOLD)
+  {
+    val1 = 1;
+  }
+
+  else if (horizontalMove > JOYSTICK_NEUTRAL_HORIZONTAL + JOYSTICK_THRESHOLD)
+  {
+    val1 = 2;
+  }
+
+  else if (verticalMove < JOYSTICK_NEUTRAL_VERTICAL - JOYSTICK_THRESHOLD)
+  {
+    val1 = 3;
+  }
+
+  else if (verticalMove > JOYSTICK_NEUTRAL_VERTICAL + JOYSTICK_THRESHOLD)
+  {
+    val1 = 4;
+  } else {
+    return None;
+  }
+
+  
+
+
 
     switch (val1)
     {
