@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include <util/delay.h>
 
-#define JOYSTICK_NEUTRAL_HORIZONTAL 420
-#define JOYSTICK_NEUTRAL_VERTICAL 500
-#define JOYSTICK_THRESHOLD 150
+#define JOYSTICK_NEUTRAL_HORIZONTAL 420     // Neutrala värdet för x-axel
+#define JOYSTICK_NEUTRAL_VERTICAL 500       // Neutrala värdet för y-axel
+#define JOYSTICK_THRESHOLD 150              // Gränsvärde för rörelse, dvs man måste röra joysticken en vis bit
 
 
 
@@ -19,7 +19,7 @@
 
 
 // Get result from ADC
-uint16_t adcRead(uint8_t ch)
+uint16_t adcRead(uint8_t ch)  
 {
   // Make sure input is 0-7
   ch &= 0b00000111;
@@ -127,7 +127,9 @@ for(i = 0; i<4; i++) {
 }
 
 
-
+ // Init ADC
+  ADMUX |= (1 << REFS0);                                            // Set the reference of ADC
+  ADCSRA |= (1 << ADEN) | (1 < ADPS2) | (1 < ADPS1) | (1 << ADPS0); // Enable ADC, set prescaler to 128
 
 
 /* Input från spelare */
@@ -138,27 +140,27 @@ int x1, y1;
 
 while(kartkvar(spelplan2)) {
 
-    int horizontalMove = adcRead(horizontalPotensometer);
-    int verticalMove = adcRead(verticalPotensometer);
+    int horizontalMove = adcRead(2); // Horizontaljoystick
+    int verticalMove = adcRead(1);   //Verticaljoystick
 
     if (horizontalMove < JOYSTICK_NEUTRAL_HORIZONTAL - JOYSTICK_THRESHOLD)
-  {
-    val1 = 1;
-  }
-
-  else if (horizontalMove > JOYSTICK_NEUTRAL_HORIZONTAL + JOYSTICK_THRESHOLD)
-  {
-    val1 = 2;
-  }
-
-  else if (verticalMove < JOYSTICK_NEUTRAL_VERTICAL - JOYSTICK_THRESHOLD)
   {
     val1 = 3;
   }
 
-  else if (verticalMove > JOYSTICK_NEUTRAL_VERTICAL + JOYSTICK_THRESHOLD)
+  else if (horizontalMove > JOYSTICK_NEUTRAL_HORIZONTAL + JOYSTICK_THRESHOLD)
+  {
+    val1 = 1;
+  }
+
+  else if (verticalMove < JOYSTICK_NEUTRAL_VERTICAL - JOYSTICK_THRESHOLD)
   {
     val1 = 4;
+  }
+
+  else if (verticalMove > JOYSTICK_NEUTRAL_VERTICAL + JOYSTICK_THRESHOLD)
+  {
+    val1 = 2;
   } else {
     return None;
   }
