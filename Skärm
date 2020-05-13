@@ -1,0 +1,66 @@
+Från void init()
+{
+  DDRB = 0b11111111;
+  DDRD = 0b11111111;
+
+  void startDisplay();
+
+}
+
+
+
+
+void startDisplay()
+{
+  PORTB = 0b00111111;
+
+  cs1low();
+	PORTD &= 0b11111110; //tar hand om pixlar 0-64, dvs init., 
+	// nollan betyder att inget kan skrivas på dom, se sida 10 på datablad till skärm
+
+  cs2low();
+	PORTD &= 0b11111101; //tar hand om pixlar 64-128, dvs init.
+
+
+
+  resetHigh();
+	PORTD |= 0b00000100; //Skickar en 1 på RESET ingången på skärmen via PD2
+  rwLow();
+	PORTD |= 0b00001000; //Skickar en 1 på R/W ingången på skärmen via PD3	
+  rsLow();
+	PORTD &= 0b11101111;
+
+  eHigh();
+	PORTD |= 0b00100000; //
+
+
+
+  cs1high();
+	PORTD |= 0b00000001;
+  cs2high();
+	PORTD |= 0b00000010;
+
+
+  eLow();
+	PORTD &= 0b11011111;
+  eHigh();
+	PORTD |= 0b00100000;
+}
+
+
+
+void waitForDisplay(){
+
+  PORTB &= 0x7F;
+  DDRB = 0x7F;
+
+  rsLow();
+	PORTD &= 0b11101111;
+  rwHigh();
+	PORTD |= 0b00001000;
+
+  while (PINB & 0x80)
+    ;
+
+  DDRB = 0xFF;
+}
