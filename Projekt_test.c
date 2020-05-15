@@ -48,6 +48,14 @@ main()
 {
 srand(time(NULL));
 
+DDRA = 0x00; //Alla pins i A blir till input
+
+DDRA &= ~(1<<PA3); 
+DDRA &= ~(1<<PA4);
+
+
+while(true) {
+
 
 
 /* Värderna i spelplanen */
@@ -114,6 +122,8 @@ for(i = 0; i<4; i++) {
        spelplan2[i][j] = true;
 
 }
+}
+
 
 _delay_ms(3000);
 
@@ -125,7 +135,7 @@ for(i = 0; i<4; i++) {
        spelplan2[i][j] = false;
 
 }
-
+}
 
  // Init ADC
   ADMUX |= (1 << REFS0);                                            // Set the reference of ADC
@@ -138,35 +148,11 @@ int val2;
 int cho1, cho2;
 int x1, y1;
 
+
 while(kartkvar(spelplan2)) {
 
-    int horizontalMove = adcRead(2); // Horizontaljoystick
-    int verticalMove = adcRead(1);   //Verticaljoystick
-
-    if (horizontalMove < JOYSTICK_NEUTRAL_HORIZONTAL - JOYSTICK_THRESHOLD)
-  {
-    val1 = 3;
-  }
-
-  else if (horizontalMove > JOYSTICK_NEUTRAL_HORIZONTAL + JOYSTICK_THRESHOLD)
-  {
-    val1 = 1;
-  }
-
-  else if (verticalMove < JOYSTICK_NEUTRAL_VERTICAL - JOYSTICK_THRESHOLD)
-  {
-    val1 = 4;
-  }
-
-  else if (verticalMove > JOYSTICK_NEUTRAL_VERTICAL + JOYSTICK_THRESHOLD)
-  {
-    val1 = 2;
-  } else {
-    return None;
-  }
-
   
-
+    val1 = movement();
 
 
     switch (val1)
@@ -253,6 +239,18 @@ while(kartkvar(spelplan2)) {
 
 }
 
+}
+while(true) {
+    if(PINA & (1<<PA3) == 1) //om resetknappen är nedtryckt{
+        rsHigh();
+        rwLow();
+	PORTD |= 0b00000100; //Skickar en 1 på RESET ingången på skärmen via PD2
+            break;
+    }
+}
+
+
+}
 
 
 /* Kollar om det finns kort kvar */
@@ -298,4 +296,64 @@ if(c==d) {
 
 
 
+}
+
+
+
+
+
+// Läser vilken rörelse som spelaren gör
+
+int movement() {
+    int val3 = 0;
+
+    int horizontalMove = adcRead(2); // Horizontaljoystick
+    int verticalMove = adcRead(1);   //Verticaljoystick
+
+    if (horizontalMove < JOYSTICK_NEUTRAL_HORIZONTAL - JOYSTICK_THRESHOLD)
+  {
+    val3 = 3; // Vänster
+    return val3;
+  }
+
+  else if (horizontalMove > JOYSTICK_NEUTRAL_HORIZONTAL + JOYSTICK_THRESHOLD)
+  {
+    val3 = 1; //Höger
+    return val3;
+  }
+
+  else if (verticalMove < JOYSTICK_NEUTRAL_VERTICAL - JOYSTICK_THRESHOLD)
+  {
+    val3 = 4; //Uppåt
+    return val3;
+  }
+
+  else if (verticalMove > JOYSTICK_NEUTRAL_VERTICAL + JOYSTICK_THRESHOLD)
+  {
+    val3 = 2; //Ner
+    return val3;
+  } 
+  
+  else if (PINA & (1<<PA4) == 1) {
+      val3 = 5; // Enter knapp
+      return val3;
+  }
+
+   else {
+    return None;
+  }
+
+
+
+
+}
+
+void rsHigh()
+{
+  PORTD |= 0b00010000;
+}
+
+void rwLow()
+{
+  PORTD &= 0b11110111;
 }
