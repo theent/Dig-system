@@ -1,0 +1,35 @@
+ 
+
+void draw(){
+char display[64][128];
+  for(char y = 0; y < 64; y++){
+    for(char x = 0; x < 128; x++){
+    
+      if(y == 0){
+      //rita en linje från (0,0) till (0,128)
+      }
+      if(y == 31){
+      //rita en linje från (0,31) till (128,31)
+      }
+      if(x == 31){
+      //rita en linje från (31,0) till (31,64)
+      }
+      if(x == 63){
+      //rita en linje från (63,0) till (63,64) 
+      }
+      if(x == 95){
+      //rita en linje från (95,0) till (95,64) 
+      }
+      if(y == 127){
+      //rita en linje från (127,0) till (127,64) 
+      }
+    
+    }
+  }
+
+
+
+
+
+
+}
