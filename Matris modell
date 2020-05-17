@@ -11,6 +11,12 @@ char display[64][128];
       if(y == 31){
       //rita en linje från (0,31) till (128,31)
       }
+      if(y == 63){
+      //rita en linje från (0,63) till (128,63)
+      }
+      if(x == 0){
+      //rita en linje från (0,0) till (0,64)
+      }
       if(x == 31){
       //rita en linje från (31,0) till (31,64)
       }
