@@ -16,8 +16,6 @@
 
 
 
-
-
 // Get result from ADC
 uint16_t adcRead(uint8_t ch)  
 {
@@ -77,6 +75,8 @@ for(i = 0; i<4; i++) {
 
 }
 
+}
+
 int count = 0;
 
 
@@ -115,6 +115,8 @@ for(i = 0; i<4; i++) {
 
 }
 
+}
+
 _delay_ms(3000);
 
 
@@ -123,6 +125,8 @@ for(i = 0; i<4; i++) {
 
     for(j = 0; j<4; j++) {
        spelplan2[i][j] = false;
+
+}
 
 }
 
@@ -297,5 +301,117 @@ if(c==d) {
 
 
 
+
+}
+
+
+
+void draw() {
+for (char cell = 0; cell < 8; cell++){
+for (char x = 0; x < 128; x++){
+
+waitForDisplay();
+char displayX;
+
+if (x < 64) {
+
+waitForDisplay();
+cs1high()
+
+waitForDisplay();
+cs2low();
+
+waitForDisplay();
+displayX = x;
+
+} 
+else {
+
+waitForDisplay();
+cs2high();
+
+waitForDisplay();
+cs1low();
+
+waitForDisplay();
+displayX = x - 64;
+
+}
+
+waitForDisplay();
+setX(displayX);
+
+waitForDisplay();
+setCell(cell);
+
+
+
+waitForDisplay();
+
+rsHigh();
+rwLow();
+
+PORTB = virtual_display[cell][x];
+
+
+
+eHigh();
+eLow();
+
+
+virtual_display[cell][x] = 0; // Reset virtual_display afterwards
+
+
+
+}
+}
+}
+
+
+void setCell(char cell)
+{
+  rsLow();
+  rwLow();
+
+  PORTB = 0b10111000 | cell; // setX del
+
+  eHigh();
+  eLow();
+}
+
+
+
+
+void setX(char x)
+{
+  rsLow();
+  rwLow();
+
+  PORTB = 0b01000000 | x;  // st Y del
+
+  eHigh();
+  eLow();
+}
+
+void waitForDisplay()
+{
+  PORTB &= 0x7F;
+  DDRB = 0x7F;
+
+  rsLow();
+  rwHigh();
+
+  while (PINB & 0x80)
+    ;
+
+  DDRB = 0xFF;
+}
+
+
+void setPixel(char x, char y,)
+
+{
+
+virtual_display[y / 8][x] |= (1 << (y % 8));
 
 }
