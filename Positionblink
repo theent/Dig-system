@@ -1,0 +1,25 @@
+void PositionBlink(char x, char y){		//Gör att en 5x5 fyrkant blinkar
+
+char x1 = x; //sparar temp värden för startpositionen dvs mitten
+char y1 = y;
+
+x = x - 2; //flyttar startpositionen till vänster hörna
+y = y - 2; 
+
+for(int i=0;i<5;i++){		//rad
+	for(int j=0;j<5;j++){	//kolumn
+
+	setPixel(x + i, y + j);
+
+	}
+}
+
+Draw();
+
+x = x1;
+y = y1;
+
+_delay_ms(500);
+
+
+}
