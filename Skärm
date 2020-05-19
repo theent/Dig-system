@@ -1,51 +1,23 @@
-Från void init()
-{
-  DDRB = 0b11111111;
-  DDRD = 0b11111111;
+void startDisplay(){
 
-  void startDisplay();
-
-}
-
-
-
-
-void startDisplay()
-{
   PORTB = 0b00111111;
 
   cs1low();
-	PORTD &= 0b11111110; //tar hand om pixlar 0-64, dvs init., 
-	// nollan betyder att inget kan skrivas på dom, se sida 10 på datablad till skärm
-
   cs2low();
-	PORTD &= 0b11111101; //tar hand om pixlar 64-128, dvs init.
-
-
 
   resetHigh();
-	PORTD |= 0b00000100; //Skickar en 1 på RESET ingången på skärmen via PD2
   rwLow();
-	PORTD |= 0b00001000; //Skickar en 1 på R/W ingången på skärmen via PD3	
   rsLow();
-	PORTD &= 0b11101111;
-
   eHigh();
-	PORTD |= 0b00100000; //
-
-
 
   cs1high();
-	PORTD |= 0b00000001;
   cs2high();
-	PORTD |= 0b00000010;
-
 
   eLow();
-	PORTD &= 0b11011111;
   eHigh();
-	PORTD |= 0b00100000;
 }
+
+
 
 
 
@@ -55,12 +27,73 @@ void waitForDisplay(){
   DDRB = 0x7F;
 
   rsLow();
-	PORTD &= 0b11101111;
   rwHigh();
-	PORTD |= 0b00001000;
 
-  while (PINB & 0x80)
+  while (PINB & 0x80)		//Oscar, stämmer detta?
     ;
 
   DDRB = 0xFF;
+}
+
+
+
+
+void cs1high()		/tar hand om pixlar 0-64, PD1-CS1
+{
+  PORTD |= 0b00000001;
+}
+
+void cs1low()
+{
+  PORTD &= 0b11111110;
+}
+
+void cs2high()		//tar hand om pixlar 64-128, PD1-CS2
+{
+  PORTD |= 0b00000010;
+}
+
+void cs2low()
+{
+  PORTD &= 0b11111101;
+}
+
+void resetHigh()	//Skickar en 1 på RESET ingången på skärmen via PD2
+{
+  PORTD |= 0b00000100;
+}
+
+void resetLow()
+{
+  PORTD &= 0b11111011;
+}
+
+void rwHigh()		//Skickar en 1 på R/W ingången på skärmen via PD3
+{
+  PORTD |= 0b00001000;
+}
+
+void rwLow()
+{
+  PORTD &= 0b11110111;
+}
+
+void rsHigh()		//Skickar en 1 på D/I ingången på skärmen via PD4
+{
+  PORTD |= 0b00010000;
+}
+
+void rsLow()
+{
+  PORTD &= 0b11101111;
+}
+
+void eHigh()		//Skickar en 1 på E ingången på skärmen via PD5
+{
+  PORTD |= 0b00100000;
+}
+
+void eLow()
+{
+  PORTD &= 0b11011111;
 }
