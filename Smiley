@@ -1,0 +1,75 @@
+void Smiley(char x, char y){
+
+char x1 = x; //sparar temp värden för startpositionen dvs mitten
+char y1 = y;
+
+x = x - 5; //flyttar startpositionen till vänster hörna
+y = y - 5; 
+
+setPixel(x + 4, y + 0);
+setPixel(x + 5, y + 0);
+setPixel(x + 6, y + 0);
+setPixel(x + 7, y + 0);
+setPixel(x + 2, y + 1);
+setPixel(x + 3, y + 1);
+setPixel(x + 8, y + 1);
+setPixel(x + 9, y + 1);
+setPixel(x + 1, y + 2);
+setPixel(x + 2, y + 2);
+setPixel(x + 9, y + 2);
+setPixel(x + 10, y + 2);
+setPixel(x + 1, y + 3);
+setPixel(x + 2, y + 3);
+setPixel(x + 3, y + 3);
+setPixel(x + 4, y + 3);
+setPixel(x + 5, y + 3);
+setPixel(x + 6, y + 3);
+setPixel(x + 7, y + 3);
+setPixel(x + 8, y + 3);
+setPixel(x + 9, y + 3);
+setPixel(x + 10, y + 3);
+setPixel(x + 0, y + 4);
+setPixel(x + 2, y + 4);
+setPixel(x + 3, y + 4);
+setPixel(x + 4, y + 4);
+setPixel(x + 6, y + 4);
+setPixel(x + 7, y + 4);
+setPixel(x + 8, y + 4);
+setPixel(x + 10, y + 4);
+setPixel(x + 0, y + 5);
+setPixel(x + 2, y + 5);
+setPixel(x + 3, y + 5);
+setPixel(x + 6, y + 5);
+setPixel(x + 7, y + 5);
+setPixel(x + 10, y + 5);
+setPixel(x + 0, y + 6);
+setPixel(x + 10, y + 6);
+setPixel(x + 0, y + 7);
+setPixel(x + 7, y + 7);
+setPixel(x + 10, y + 7);
+setPixel(x + 1, y + 8);
+setPixel(x + 4, y + 8);
+setPixel(x + 5, y + 8);
+setPixel(x + 6, y + 8);
+setPixel(x + 9, y + 8);
+setPixel(x + 1, y + 9);
+setPixel(x + 2, y + 9);
+setPixel(x + 8, y + 9);
+setPixel(x + 9, y + 9);
+setPixel(x + 2, y + 10);
+setPixel(x + 3, y + 10);
+setPixel(x + 4, y + 10);
+setPixel(x + 5, y + 10);
+setPixel(x + 6, y + 10);
+setPixel(x + 7, y + 10);
+setPixel(x + 8, y + 10);
+
+
+
+Draw();
+
+x = x1;
+y = y1;
+
+
+}
