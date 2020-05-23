@@ -17,24 +17,8 @@
 
 
 
-// Få resultat från ADC
-uint16_t adcRead(uint8_t ch)
-{
-  // Gör at input är mellan 0-7
-  ch &= 0b00000111;
-  // Sätter MUX-channel (MUX2-0)
-  ADMUX = (ADMUX & 0xF8) | ch;
-  // Startar ADC
-  ADCSRA |= (1 << ADSC);
-  // väntar på att ADC ska bli klar
-  while (ADCSRA & (1 << ADSC))
-    ;
-  return (ADC);
-}
 
-
-
-
+char virtuel_spelplan[8][128];
 
 
 
@@ -269,9 +253,9 @@ PositionBlink(kordx, kordy);
     if (val2 == 0)
     {
 
-      cho1 = spelplan[x][y];
-      spelplan2[x][y] = true;
-      kort_som_ska_ritas(spelplan[x][y], kordplanx[x][y],kordplany[x][y]);
+      cho1 = spelplan[y][x];
+      spelplan[y][x] = true;
+      kort_som_ska_ritas(spelplan[y][x], kordplanx[x][y],kordplany[x][y]);
       val2++;
       x1 = x;
       y1 = y;
@@ -281,17 +265,17 @@ PositionBlink(kordx, kordy);
     else
     {
 
-      cho2 = spelplan[x][y];
-      spelplan2[x][y] = true;
-      kort_som_ska_ritas(spelplan[x][y], kordplanx[x][y],kordplany[x][y]);
+      cho2 = spelplan[y][x];
+      spelplan[y][x] = true;
+      kort_som_ska_ritas(spelplan[y][x], kordplanx[y][x],kordplany[y][x]);
 
       //Ifall korten inte är lika vänds de tillbaks
       if (!compare(cho1, cho2))
       {
-        spelplan2[x][y] = false;
+        spelplan[y][x] = false;
         removePixels(kordplanx[x][y],kordplany[x][y]);
 
-        spelplan2[x1][y1] = false;
+        spelplan[y1][x1] = false;
         removePixels(kordplanx[x][y],kordplany[x][y]);
         Draw();
       }
@@ -320,6 +304,22 @@ while (true)
 }
 }
 
+
+
+// Få resultat från ADC
+uint16_t adcRead(uint8_t ch)
+{
+  // Gör at input är mellan 0-7
+  ch &= 0b00000111;
+  // Sätter MUX-channel (MUX2-0)
+  ADMUX = (ADMUX & 0xF8) | ch;
+  // Startar ADC
+  ADCSRA |= (1 << ADSC);
+  // väntar på att ADC ska bli klar
+  while (ADCSRA & (1 << ADSC))
+    ;
+  return (ADC);
+}
 
 
 
@@ -419,12 +419,12 @@ void draw()
       rsHigh();
       rwLow();
 
-      PORTB = virtual_display[cell][x];
+      PORTB = virtuel_spelplan[cell][x];
 
       eHigh();
       eLow();
 
-      virtual_display[cell][x] = 0; // Reset virtual_display afterwards
+      virtuel_spelplan[cell][x] = 0; // Reset virtuel_spelplan
     }
   }
 }
@@ -485,7 +485,7 @@ void setPixel(char x, char y, )
 
   { 
 
-  virtual_display[y / 8][x] |= (1 << (y % 8));
+  virtuel_spelplan[y / 8][x] |= (1 << (y % 8));
 
   }
 
@@ -500,7 +500,7 @@ y = y - 5;
 for(int i = x;i<11;i++){
 	for(int j = y; j <11;j j ++){
 
-	virtual_display[j / 8][i] &= (0 << (j % 8));
+	virtuel_spelplan[j / 8][i] &= (0 << (j % 8));
 
 
 	}
