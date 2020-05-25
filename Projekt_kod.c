@@ -438,7 +438,7 @@ void setCell(char cell)
   rsLow();
   rwLow();
 
-  PORTB = 0b10111000 | cell; // set X-Adress
+  PORTB = 0b10111000 | cell; // sätter bitarnas X-Adress för display datan
 
   eHigh();
   eLow();
@@ -453,7 +453,7 @@ void setX(char x)
   rsLow();
   rwLow();
 
-  PORTB = 0b01000000 | x; // set Y-Adress
+  PORTB = 0b01000000 | x; // sätter bitarnas Y-Adress för display datan
 
   eHigh();
   eLow();
@@ -471,7 +471,7 @@ void waitForDisplay()
   rsLow();
   rwHigh();
 
-  while (PINB & 0x80)
+  while (PINB & 0x80)  // Väntar tills skärmens status inte är "busy"
     ;
 
   DDRB = 0xFF;
