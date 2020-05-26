@@ -14,7 +14,8 @@
 #define JOYSTICK_THRESHOLD 150          // Gränsvärde för rörelse, dvs man måste röra joysticken en vis bit
 
 
-
+#define true 1
+#define false 0
 
 
 
