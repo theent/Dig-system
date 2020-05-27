@@ -156,9 +156,7 @@ main()
 
 
 
-// Init ADC
-ADMUX |= (1 << REFS0);                                            // Set the reference of ADC
-ADCSRA |= (1 << ADEN) | (1 < ADPS2) | (1 < ADPS1) | (1 << ADPS0); // Enable ADC, set prescaler to 128
+
 
 
 
@@ -183,6 +181,7 @@ while (kartkvar(spelplan2))
 {
 
 startDisplay();
+init();
 PositionBlink(kordx, kordy);
 
   /* Input från spelare */
@@ -581,6 +580,13 @@ void rsHigh()		//Skickar en 1 på D/I ingången på skärmen via PD4
 void rsLow()
 {
   PORTD &= 0b11101111;
+}
+
+void init() {
+// Init ADC
+ADMUX |= (1 << REFS0);                                            // Set the reference of ADC
+ADCSRA |= (1 << ADEN) | (1 < ADPS2) | (1 < ADPS1) | (1 << ADPS0); // Enable ADC, set prescaler to 128
+
 }
 
   void startDisplay(){
